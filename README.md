@@ -429,25 +429,26 @@ The exact structure is flexible. Organize code in the way that best supports you
 
 If you're new to the ecosystem, focus on learning the libraries in this order:
 
-1. simplyflow
+1. [simplyflow](https://github.com/SimplyEdit/simplyflow)
 
    * state
-   * actions
-   * commands
-   * routing
-
-2. simplyview
-
    * bindings
    * lists
    * templates
 
-3. metro
+2. [simplyview](https://github.com/SimplyEdit/simplyview/)
+
+   * application framework
+   * actions
+   * commands
+   * routing
+
+3. [@muze-nl/metro](https://github.com/muze-nl/metro)
 
    * API clients
    * remote data
 
-4. THEDS
+4. [@muze-nl/the-DS](https://github.com/muze-nl/the-ds/)
 
    * components
    * design system
