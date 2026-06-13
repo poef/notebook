@@ -16,10 +16,13 @@ const demo = simply.app({
 	},
 	actions: {
 		demo: async function() {
-			this.state.demo = await this.api.demo()
+			const result = await this.api.demo()
+			this.state.demo = result.demo
 		}
 	},
-	state: simply.state.signal({}),
+	state: simply.state.signal({
+		demo: 'initial content'
+	}),
 	hooks: {
 		start: async function() {
 			simply.bind({
