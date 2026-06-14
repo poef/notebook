@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "build-dev": "./node_modules/.bin/esbuild src/note.mjs --bundle --format=esm --sourcemap --outfile=www/app.js",
-    "build": "./node_modules/.bin/esbuild src/note.mjs --bundle --format=esm --sourcemap --outfile=www/app.min.js --minify",
-    "watch": "watch 'npm run build-dev' ./src & npx http-server www/"
+    "build-dev": "./node_modules/.bin/esbuild --loader:.css=text src/notebook.mjs --bundle --format=esm --sourcemap --outfile=www/app.js",
+    "build": "./node_modules/.bin/esbuild --loader:.css=text src/notebook.mjs --bundle --format=esm --sourcemap --outfile=www/app.min.js --minify",
+    "dev": "watch 'npm run build-dev' ./src & npx http-server www/"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,11 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "@muze-nl/metro": "^0.7.1",
+    "@muze-nl/theds": "^0.2.7",
+    "note": "file:../note/",
+    "simplyflow": "file:../../simplyedit/simplyflow/",
+    "simplyview": "^3.5.9",
+    "@muze-nl/helene": "file:../../muze-nl/helene/"
   }
 }

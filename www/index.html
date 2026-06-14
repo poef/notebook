@@ -2,27 +2,21 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>A Simply Skeleton App</title>
+	<title>A Simple Notebook</title>
 	<link rel="stylesheet" href="theds.css">
-	<style>
-		.note {
-			min-height: 1.5rem;
-			outline: 1px dotted #CCC;
-		}
-	</style>
 </head>
 <body>
-	<main class="ds-space">
-		<h1>A simple note taking app</h1>
-		<p class="note"></p>
+	<main class="ds-space" data-flow-list="notes">
+		<template rel="note-h1" data-flow-field="type" data-flow-match="note-h1"></template>
+		<template rel="note-p" data-flow-field="type" data-flow-match="note-p"></template>
+		<template rel="code-js" data-flow-field="type" data-flow-match="code-js"></template>
+		<template rel="code-html" data-flow-field="type" data-flow-match="code-html"></template>
+		<template rel="code-css" data-flow-field="type" data-flow-match="code-css"></template>
 	</main>
 	<script type="module">
-		import Note from './app.js'
+		import notebook from './app.js'
 
-		const note = new Note({
-			editable: document.querySelector('.note')
-		})
-		note.editor.focus()
+		globalThis.notebook = notebook
 	</script>
 </body>
 </html>
