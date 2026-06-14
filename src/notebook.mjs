@@ -5,7 +5,7 @@ import theds from "@muze-nl/theds"
 import notes from './notes.mjs'
 import codeEditor from './code.mjs'
 import noteEditor from './note.mjs'
-import { handleArrowUp, handleArrowDown } from './cursor.mjs'
+import { moveUp, moveDown } from './cursor.mjs'
 
 const notebook = simply.app({
 	routes: {
@@ -16,20 +16,20 @@ const notebook = simply.app({
 				notebook.actions.splitNote.call(notebook)
 			},
 			ArrowDown: (evt) => {
-				const note = evt.target.closest('.note')
+				const note = evt.target.closest('.block')
 				let nextNote = note.nextElementSibling;
-				while (nextNote && !nextNote.classList.contains('note')) {
+				while (nextNote && !nextNote.classList.contains('block')) {
 				    nextNote = nextNote.nextElementSibling
 				}
-				return notebook.actions.ArrowDown.call(notebook, note, nextNote)
+				return notebook.actions.moveDown.call(notebook, note, nextNote)
 			},
 			ArrowUp: (evt) => {
-				const note = evt.target.closest('.note')
+				const note = evt.target.closest('.block')
 				let prevNote = note.previousElementSibling;
-				while (prevNote && !prevNote.classList.contains('note')) {
+				while (prevNote && !prevNote.classList.contains('block')) {
 				    prevNote = prevNote.nextElementSibling
 				}
-				return notebook.actions.ArrowUp.call(notebook, note, prevNote)
+				return notebook.actions.moveUp.call(notebook, note, prevNote)
 			},
 			ArrowLeft: (evt) => notebook.actions.ClearCursorCache(),
 			ArrowRight: (evt) => notebook.actions.ClearCursorCache()
@@ -60,7 +60,7 @@ const notebook = simply.app({
 			delete this.state.desiredX
 			return false
 		},
-		ArrowDown: function(note, nextNote) {
+		moveDown: function(note, nextNote) {
 			if (!this.state.desiredX) {
 				const offset = note.noteEditor.selection.get()?.focus
 				if (typeof offset !== 'undefined') {
@@ -68,9 +68,9 @@ const notebook = simply.app({
 					this.state.desiredX = pos.left
 				}
 			}
-			return handleArrowDown(note.noteEditor, nextNote?.noteEditor, this.state.desiredX)
+			return moveDown(note.noteEditor, nextNote?.noteEditor, this.state.desiredX)
 		},
-		ArrowUp: function(note, prevNote) {
+		moveUp: function(note, prevNote) {
 			if (!this.state.desiredX) {
 				const offset = note.noteEditor.selection.get()?.focus
 				if (typeof offset !== 'undefined') {
@@ -78,7 +78,7 @@ const notebook = simply.app({
 					this.state.desiredX = pos.left
 				}
 			}
-			return handleArrowUp(note.noteEditor, prevNote?.noteEditor, this.state.desiredX)
+			return moveUp(note.noteEditor, prevNote?.noteEditor, this.state.desiredX)
 		}
 	},
 	state: simply.state.signal({
