@@ -12,8 +12,13 @@ const notebook = simply.app({
 	},
 	keys: {
 		note: {
-			'enter': (evt) => { // this will refer to Note
-				notebook.actions.splitNote.call(notebook)
+			'Enter': async (evt) => { // this will refer to Note
+				const note = evt.target.closest('.block')
+				if (note.noteEditor) {
+					const position = note.noteEditor.selection.get()
+					const newNote = await notebook.actions.splitNote.call(notebook, note, position.focus) //FIXME: remove selected contents
+					newNote.focus()
+				}
 			},
 			ArrowDown: (evt) => {
 				const note = evt.target.closest('.block')
@@ -39,10 +44,26 @@ const notebook = simply.app({
 	},
 	actions: {
 		splitNote: function(note, position) {
-			// get contents after position -> note api
-			// remove those from current note -> note api
-			// create new note after current
-			// add contents to that -> note api
+			return new Promise((resolve, reject) => {
+				// get contents after position -> note api
+				const contentsBefore = note.noteEditor.selection.content([0,position])
+				const contentsAfter = note.noteEditor.selection.content([position, note.innerText.length])
+				// remove those from current note -> note api
+				note.innerHTML = contentsBefore
+				// create new note after current
+				const index = parseInt(note.dataset.flowKey)
+				const prevNote = this.state.notes[index]
+				// add contents to that -> note api
+				this.state.notes.splice(index+1, 0, {
+					type: ''+prevNote.type,
+					content: contentsAfter
+				})
+				setTimeout(() => {
+					const list = note.closest('[data-flow-list]')
+					const newNote = list?.querySelector(`[data-flow-key="${index+1}"]`)
+					resolve(newNote)
+				})
+			})
 		},
 		mergeNotePrev: function(note, prev) {
 			// check that previous entry is also a note
