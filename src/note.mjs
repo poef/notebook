@@ -5,7 +5,7 @@ export default {
 		noteEdit: async function(editable) {
 			if (!editable.dataset.simplyActivated) {
 				editable.dataset.simplyActivated = true
-				note({
+				return note({
 					editable
 				})
 			}

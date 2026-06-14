@@ -9,7 +9,7 @@ export default {
 		codeEdit: async function(textarea) {
 			if (!textarea.dataset.simplyActivated) {
 				textarea.dataset.simplyActivated = true
-				helene({
+				return helene({
 					textarea
 				})
 			}
